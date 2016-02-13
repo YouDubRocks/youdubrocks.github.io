@@ -10,15 +10,31 @@ body
   font-style: italic
 
 #video-container
-  margin: $vspace $hspace
+  margin-top: $vspace
 
-#surprise-me-button
-  margin: $vspace $hspace
-
+.main-controls
+  text-align: center
 
   button
     font-size: $font-size-large
-    font-weight: 700
-    border-color: $accent
-    background-color: $accent
+    font-weight: 600
     padding: 15px 20px
+    line-height: 1.2
+    border-color: $accent
+
+.small-controls
+  button
+    color: $gray-light
+    border-color: $gray-lighter
+    background-color: transparent
+
+#surprise-me-button
+  border-color: $accent
+  background-color: $accent
+
+#sharing-panel i
+  color: $quiet
+  margin-left: 8px
+
+  &:first-child
+    margin-left: 0
