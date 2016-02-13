@@ -10,9 +10,10 @@ body
   font-style: italic
 
 #video-container
-  margin-top: $vspace
+  margin-top: $vspace * .75
 
 .main-controls
+  margin-top: 20px
   text-align: center
 
   button
@@ -28,13 +29,22 @@ body
     border-color: $gray-lighter
     background-color: transparent
 
+.social-controls
+  margin-top: 20px
+
+  button
+    color: $gray-light
+    border: none
+    background-color: transparent
+
+    &:hover
+      &.facebook
+        color: #3b5998
+      &.twitter
+        color: #55acee
+      &.link
+        color: $gray
+
 #surprise-me-button
   border-color: $accent
   background-color: $accent
-
-#sharing-panel i
-  color: $quiet
-  margin-left: 8px
-
-  &:first-child
-    margin-left: 0
