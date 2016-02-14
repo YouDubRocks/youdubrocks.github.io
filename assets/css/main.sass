@@ -1,20 +1,22 @@
 .navbar
-  margin-bottom: $vspace * .75
   
   .navbar-brand
     font-weight: 800
     font-style: italic
 
 .main-controls
-  margin-top: 20px
   text-align: center
 
   button
     font-size: $font-size-large
-    font-weight: 600
+    font-weight: 700
+    font-style: italic
     padding: 15px 20px
     line-height: 1.2
     border-color: $accent
+
+  #surprise-me-button
+    background-color: $accent
 
 .media-controls
   .icon
@@ -56,6 +58,13 @@
       &.link
         color: $gray
 
-#surprise-me-button
-  border-color: $accent
-  background-color: $accent
+.top-headings
+  color: $quiet
+  font-weight: 700
+  font-style: italic
+
+.make-your-own
+  .search
+    border: 1px solid $nav-tabs-border-color
+    border-top: none
+    padding: $padding-base-vertical $padding-base-horizontal

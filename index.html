@@ -44,6 +44,14 @@
     </nav>
 
     <div class="container">
+      <div class="row top-headings">
+        <div class="col-md-8">
+          <h3>Get lucky...</h3>
+        </div>
+        <div class="col-md-4">
+          <h3>...or make your own<h3>
+        </div>
+      </div>
       <div class="row">
         <div class="col-md-8">
           <div id="video-container" class="row">
@@ -62,7 +70,7 @@
                 <div class="col-md-3 controls">
                   <div class="btn-group controls" role="group">
                     <button type="button" class="btn">
-                      <span class="glyphicon glyphicon-random" aria-hidden="true"></span>
+                      <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
                       <!-- <button type="button" class="btn"> -->
                       <!--   <span class="glyphicon glyphicon-search" aria-hidden="true"></span> -->
                       <!-- </button> -->
@@ -85,7 +93,7 @@
                 <div class="col-md-3 controls">
                   <div class="btn-group controls" role="group">
                     <button type="button" class="btn">
-                      <span class="glyphicon glyphicon-random" aria-hidden="true"></span>
+                      <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
                     </button>
                     <!-- <button type="button" class="btn"> -->
                     <!--   <span class="glyphicon glyphicon-search" aria-hidden="true"></span> -->
@@ -100,7 +108,8 @@
             <div class="main-controls">
               <button id="surprise-me-button" type="button" class="btn btn-primary">
                 <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
-                Roll another
+                &nbsp;
+                Try another
               </button>
             </div>
           </div>
@@ -121,13 +130,28 @@
 
 
         <!-- Search column -->
-        <div class="col-md-4">
-          <div class="form-group">
-            <input type="search" class="form-control" placeholder="Search...">
-          </div>
+        <div class="col-md-4 make-your-own">
+
+          <ul class="nav nav-tabs nav-justified">
+            <li role="presentation" class="active">
+              <a href="#">
+                <i class="fa fa-film"></i>
+                Video
+              </a>
+            </li>
+            <li role="presentation">
+              <a href="#">
+                <i class="fa fa-music"></i>
+                Sound
+              </a>
+            </li>
+          </ul>
 
           <!-- Search results -->
-          <div class="search-results">
+          <div class="search">
+            <div class="form-group">
+              <input type="search" class="form-control" placeholder="Search...">
+            </div>
 
             <div class="media">
               <div class="media-left">
