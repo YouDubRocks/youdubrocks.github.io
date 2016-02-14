@@ -216,7 +216,7 @@ ydServices.service('VideoPlayer', function ($rootScope) {
                                 playerAudio.playVideo();
                             }
 
-                            console.log(event);
+                            // console.log(event);
                         },
                         'onError': function (event) {
                             console.log(event);
@@ -245,7 +245,7 @@ ydServices.service('VideoPlayer', function ($rootScope) {
                             checkAndPlay();
                         },
                         'onStateChange': function (event) {
-                            console.log(event);
+                            // console.log(event);/
                         },
                         'onError': function (event) {
                             console.log(event);
@@ -308,10 +308,11 @@ ydAppModule.controller('RootCtrl', function ($scope, $rootScope, $routeParams, $
     $scope.$location = $location;
     $scope.$routeParams = $routeParams;
 
+    function getRandomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
     function findTopVideos(params) {
-        function getRandomInt(min, max) {
-            return Math.floor(Math.random() * (max - min + 1)) + min;
-        }
 
         return Rx.Observable
             .fromPromise(MostPopularVideos.find(params).$promise)
@@ -325,9 +326,26 @@ ydAppModule.controller('RootCtrl', function ($scope, $rootScope, $routeParams, $
 
 
     function reloadVideosAndAudioCompletely() {
+        var languages = [
+            "US", "DZ", "AR", "AU", "AT", "AZ", "BH", "BY",
+            "BE", "BA", "BR", "BG", "CA", "CL", "CO",
+            "HR", "CZ", "DK", "EG", "EE", "FI", "FR", "GE",
+            "DE", "GH", "GR", "HK", "HU", "IS", "IN", "ID",
+            "IQ", "IE", "IL", "IT", "JP", "JO", "KZ", "KE",
+            "KW", "LV", "LB", "LY", "LT", "LU", "MK", "MY",
+            "MX", "ME", "MA", "NP", "NL", "NZ", "NG", "NO",
+            "OM", "PK", "PE", "PH", "PL", "PT", "PR", "QA",
+            "RO", "RU", "SA", "SN", "RS", "SG", "SK", "SI",
+            "ZA", "KR", "ES", "LK", "SE", "CH", "TW", "TZ",
+            "TH", "TN", "TR", "UG", "UA", "AE", "GB", "VN",
+            "YE", "ZW"];
+
+        var languageIndexFirst = getRandomInt(0, languages.length - 1);
+        var languageIndexSecond = getRandomInt(0, languages.length - 1);
+
         Rx.Observable.zip(
-            findTopVideos({regionCode: 'lt', videoCategoryId: 15}),
-            findTopVideos({regionCode: 'us', videoCategoryId: 10})
+            findTopVideos({regionCode: languages[languageIndexFirst]}),
+            findTopVideos({regionCode: languages[languageIndexSecond]})
             )
             .subscribe(
                 function (x) {
