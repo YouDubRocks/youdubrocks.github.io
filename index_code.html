@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="youdub">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+
+    <!-- DNS Prefetches, kept immediately below charset declaration for performance  -->
+    <!-- jQuery -->
+    <link rel="dns-prefetch" href="//ajax.googleapis.com"/>
+    <!-- YouTube -->
+    <link rel="dns-prefetch" href="//img.youtube.com"/>
+    <link rel="dns-prefetch" href="//www.youtube.com"/>
+
+    <link rel="dns-prefetch" href="//maxcdn.bootstrapcdn.com"/>
+    <link rel="dns-prefetch" href="//code.jquery.com"/>
+    <link rel="dns-prefetch" href="//code.angularjs.org"/>
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+
+    <title>YouDub</title>
+
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+          integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
+          crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"
+          integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r"
+          crossorigin="anonymous">
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="//oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+        #player-audio {
+            display: none;
+        }
+    </style>
+</head>
+
+<body ng-controller="RootCtrl">
+
+
+<div ng-controller="RouteParamCtrl"></div>
+
+<div class="row">
+    <div class="col-md-4" ng-controller="VideoSearch">
+        Video Search
+        <div>
+            <input type="text" ng-model="model.videoQuery" value=""/>
+        </div>
+        <div>
+            <div ng-repeat="video in model.videos" ng-click="select(video)">
+                <div>{{video.snippet.title}}</div>
+                <div>{{video.id.videoId}}</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div id="video-container">
+            <!--<div id='player-audio'></div>-->
+            <!--<div id='player-video'></div>-->
+        </div>
+    </div>
+    <div class="col-md-4" ng-controller="AudioSearch">
+        Audio Search
+        <div>
+            <input type="text" ng-model="model.audioQuery" value=""/>
+        </div>
+        <div>
+            <div ng-repeat="video in model.videos" ng-click="select(video)">
+                <div>{{video.snippet.title}}</div>
+                <div>{{video.id.videoId}}</div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+    </div>
+    <div class="col-md-4">
+        <div ng-controller="StopStartCtrl">
+            <button class="btn" ng-click="playPause()">START/STOP</button>
+            <button class="btn" ng-click="reloadCompletely()">RELOAD</button>
+        </div>
+        <div ng-controller="RepickRelatedCtrl">
+            <button class="btn" ng-click="repickVideo()">Video</button>
+            <button class="btn" ng-click="repickAudio()">Audio</button>
+        </div>
+
+
+        <div ng-controller="StartTimeCtrl">
+            <div>
+                <md-slider md-discrete ng-model="model.videoStartPosition" min="0"
+                           max="{{model.videoDuration}}"></md-slider>
+            </div>
+            <div>
+                <md-slider md-discrete ng-model="model.audioStartPosition" min="0"
+                           max="{{model.audioDuration}}"></md-slider>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+    </div>
+</div>
+
+<script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-animate.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-aria.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-messages.min.js"></script>
+
+<script src="//ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>
+
+
+<script src="//code.angularjs.org/1.5.0/angular-resource.min.js"></script>
+<script src="//code.angularjs.org/1.5.0/angular-route.min.js"></script>
+
+<script src="//www.youtube.com/iframe_api"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+        integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+        crossorigin="anonymous"></script>
+<script src="rx.all.min.js"></script>
+<script src="rx.angular.min.js"></script>
+<script src="app.js"></script>
+
+
+<script>
+    //    var videoId = "M7lc1UVf-VE";
+    //    var audioId = "xiTOUpzRpss";
+
+    window.youTubeApiLoaded = new Rx.BehaviorSubject(false);
+
+    window.onYouTubePlayerAPIReady = function () {
+        window.youTubeApiLoaded.onNext(true);
+//        window.youTubeApiLoaded.onCompleted();
+    }
+
+</script>
+</body>
+
+</html>
