@@ -199,8 +199,8 @@ ydServices.service('VideoPlayer', function ($rootScope) {
                         iv_load_policy: '3',
                         enablejsapi: '1'
                     },
-                    width: 560,
-                    height: 460,
+                    width: "100%",
+                    height: 416,
                     events: {
                         'onReady': function (event) {
                             console.log("onReady Video starting", event, videoId);
@@ -513,6 +513,18 @@ ydAppModule.controller('RepickRelatedCtrl', function ($scope, $rootScope, $route
                 function (err) {
                     console.error('Error: %s', err);
                 });
+    };
+});
+
+ydAppModule.controller('VideoAudioSearchTabsCtrl', function ($scope, $rootScope, observeOnScope, SearchVideos, $route) {
+    $scope.videoVisible = true;
+
+    $scope.showVideo = function () {
+        $scope.videoVisible = true;
+    };
+
+    $scope.showAudio = function () {
+        $scope.videoVisible = false;
     };
 });
 

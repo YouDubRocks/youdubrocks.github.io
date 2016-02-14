@@ -69,7 +69,7 @@
           <h3>Get lucky...</h3>
         </div>
         <div class="col-md-4">
-          <h3>...or make your own<h3>
+          <h3>...or make your own</h3>
         </div>
       </div>
       <div class="row">
@@ -164,17 +164,17 @@
 
 
         <!-- Search column -->
-        <div class="col-md-4 make-your-own">
+        <div class="col-md-4 make-your-own" ng-controller="VideoAudioSearchTabsCtrl">
 
           <ul class="nav nav-tabs nav-justified">
-            <li role="presentation" class="active">
-              <a href="#">
+            <li role="presentation" ng-class="{active: videoVisible == true}">
+              <a ng-click="showVideo()">
                 <i class="fa fa-film"></i>
                 Video
               </a>
             </li>
-            <li role="presentation">
-              <a href="#">
+            <li role="presentation" ng-class="{active: videoVisible == false}">
+              <a ng-click="showAudio()">
                 <i class="fa fa-music"></i>
                 Sound
               </a>
@@ -182,51 +182,43 @@
           </ul>
 
           <!-- Search results -->
-          <div class="search" ng-controller="VideoSearch">
+          <div class="search" ng-controller="VideoSearch" ng-show="videoVisible">
             <div class="form-group">
-              <input type="search" class="form-control" placeholder="Search...">
+              <input type="search" class="form-control" placeholder="Search..." ng-model="model.videoQuery">
             </div>
 
-            <div class="media">
+            <div class="media" ng-repeat="video in model.videos" ng-click="select(video)">
               <div class="media-left">
                 <a href="#">
-                  <img height="64" class="media-object" src=https://i.ytimg.com/vi_webp/4CWlLsPULrE/default.webp">
+                  <img height="64" class="media-object" ng-src="{{video.snippet.thumbnails.default.url}}">
                 </a>
               </div>
               <div class="media-body">
                 <h5 class="media-heading">
-                  Florence + The Machine - Live Voodoo Music Festival 2015 (Full Show HD)
+                    {{video.snippet.title}}
                 </h5>
               </div>
             </div>
+          </div>
 
-            <div class="media">
-              <div class="media-left">
-                <a href="#">
-                  <img height="64" class="media-object" src=https://i.ytimg.com/vi_webp/4CWlLsPULrE/default.webp">
-                </a>
+          <!-- Search results -->
+          <div class="search" ng-controller="AudioSearch" ng-show="!videoVisible">
+              <div class="form-group">
+                  <input type="search" class="form-control" placeholder="Search..." ng-model="model.audioQuery">
               </div>
-              <div class="media-body">
-                <h5 class="media-heading">
-                  Imagine Dragons - Live Miami Beach 2015 (Full Show HD)
-                </h5>
-              </div>
-            </div>
 
-            <div class="media">
-              <div class="media-left">
-                <a href="#">
-                  <img height="64" class="media-object" src=https://i.ytimg.com/vi_webp/4CWlLsPULrE/default.webp">
-                </a>
+              <div class="media" ng-repeat="video in model.videos" ng-click="select(video)">
+                  <div class="media-left">
+                      <a href="#">
+                          <img height="64" class="media-object" ng-src="{{video.snippet.thumbnails.default.url}}">
+                      </a>
+                  </div>
+                  <div class="media-body">
+                      <h5 class="media-heading">
+                          {{video.snippet.title}}
+                      </h5>
+                  </div>
               </div>
-              <div class="media-body">
-                <h5 class="media-heading">
-                  Foals - My Number - Live Falls Festival New Year's Eve 2016
-                </h5>
-              </div>
-            </div>
-
-
           </div>
         </div>
       </div>
