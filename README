@@ -1,0 +1,1 @@
+sass --watch -I bower_components/bootstrap-sass/assets/stylesheets -I assets/css assets/css/application.sass:_generated/css/application.css
