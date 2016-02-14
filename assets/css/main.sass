@@ -1,26 +1,46 @@
 .navbar
-  margin-bottom: $vspace * .75
   
   .navbar-brand
     font-weight: 800
     font-style: italic
 
 .main-controls
-  margin-top: 20px
   text-align: center
 
   button
     font-size: $font-size-large
-    font-weight: 600
+    font-weight: 700
+    font-style: italic
     padding: 15px 20px
     line-height: 1.2
     border-color: $accent
 
-.small-controls
-  button
+  #surprise-me-button
+    background-color: $accent
+
+.media-controls
+  .icon
     color: $gray-light
-    border-color: $gray-lighter
-    background-color: transparent
+    margin-top: $padding-base-vertical * 1.2
+    padding-right: 0
+
+  .title
+    @include text-overflow
+    height: 100%
+    margin: 0
+    margin-top: $padding-base-vertical * 1.25
+
+  .controls
+    button
+      color: $gray-light
+      border-color: $gray-lighter
+      background-color: transparent
+
+  &.picture
+    margin-top: $vspace * .5
+
+  &.sound
+    margin-bottom: $vspace * .5
 
 .social-controls
   margin-top: 20px
@@ -38,6 +58,13 @@
       &.link
         color: $gray
 
-#surprise-me-button
-  border-color: $accent
-  background-color: $accent
+.top-headings
+  color: $quiet
+  font-weight: 700
+  font-style: italic
+
+.make-your-own
+  .search
+    border: 1px solid $nav-tabs-border-color
+    border-top: none
+    padding: $padding-base-vertical $padding-base-horizontal
