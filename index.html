@@ -1,13 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="youdub">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="../../favicon.ico">
+
+    <!-- DNS Prefetches, kept immediately below charset declaration for performance  -->
+    <!-- jQuery -->
+    <link rel="dns-prefetch" href="//ajax.googleapis.com"/>
+    <!-- YouTube -->
+    <link rel="dns-prefetch" href="//img.youtube.com"/>
+    <link rel="dns-prefetch" href="//www.youtube.com"/>
+
+    <link rel="dns-prefetch" href="//maxcdn.bootstrapcdn.com"/>
+    <link rel="dns-prefetch" href="//code.jquery.com"/>
+    <link rel="dns-prefetch" href="//code.angularjs.org"/>
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>Shubble &ndash; your video shuffler</title>
 
@@ -20,9 +32,17 @@
 
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,800,700' rel='stylesheet' type='text/css'>
     <link href="_generated/css/application.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
+
+    <style>
+      #player-audio {
+        display: none;
+      }
+    </style>
   </head>
 
-  <body>
+  <body  ng-controller="RootCtrl">
 
     <nav class="navbar navbar-inverse navbar-static-top">
       <div class="container">
@@ -55,9 +75,22 @@
       <div class="row">
         <div class="col-md-8">
           <div id="video-container" class="row">
-            <iframe width="100%" height="416" src="https://www.youtube.com/embed/nAJUxmvKWds" frameborder="0" allowfullscreen></iframe>
           </div>
 
+          <div class="row">
+              <div ng-controller="StartTimeCtrl">
+                  <div>
+                      <md-slider md-discrete ng-model="model.videoStartPosition" min="0"
+                                 max="{{model.videoDuration}}"></md-slider>
+                  </div>
+                  <div>
+                      <md-slider md-discrete ng-model="model.audioStartPosition" min="0"
+                                 max="{{model.audioDuration}}"></md-slider>
+                  </div>
+              </div>
+          </div>
+
+          <div class="reload-container-group" ng-controller="RepickRelatedCtrl">
           <div class="row media-controls picture">
             <div class="col-md-8 col-md-offset-2">
               <div class="row">
@@ -69,7 +102,7 @@
                 </span>
                 <div class="col-md-3 controls">
                   <div class="btn-group controls" role="group">
-                    <button type="button" class="btn">
+                    <button type="button" class="btn" ng-click="repickVideo()">
                       <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
                       <!-- <button type="button" class="btn"> -->
                       <!--   <span class="glyphicon glyphicon-search" aria-hidden="true"></span> -->
@@ -88,11 +121,11 @@
                   <i class="fa fa-music"></i>
                 </div>
                 <div class="col-md-8 title">
-                  Imagine Dragons - Live Miami Beach 
+                  Imagine Dragons - Live Miami Beach
                 </div>
                 <div class="col-md-3 controls">
                   <div class="btn-group controls" role="group">
-                    <button type="button" class="btn">
+                    <button type="button" class="btn"  ng-click="repickAudio()">
                       <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
                     </button>
                     <!-- <button type="button" class="btn"> -->
@@ -103,10 +136,11 @@
               </div>
             </div>
           </div>
+          </div>
 
           <div class="row">
-            <div class="main-controls">
-              <button id="surprise-me-button" type="button" class="btn btn-primary">
+            <div class="main-controls"  ng-controller="StopStartCtrl">
+              <button id="surprise-me-button" type="button" class="btn btn-primary"  ng-click="reloadCompletely()">
                 <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
                 &nbsp;
                 Try another
@@ -148,7 +182,7 @@
           </ul>
 
           <!-- Search results -->
-          <div class="search">
+          <div class="search" ng-controller="VideoSearch">
             <div class="form-group">
               <input type="search" class="form-control" placeholder="Search...">
             </div>
@@ -198,12 +232,41 @@
       </div>
     </div><!-- /.container -->
 
+    <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-animate.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-aria.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-messages.min.js"></script>
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="bower_components/jquery/dist/jquery.min.js"><\/script>')</script>
-    <script src="bower_components/bootstrap-sass/assets/javascripts/bootstrap.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>
+
+
+    <script src="//code.angularjs.org/1.5.0/angular-resource.min.js"></script>
+    <script src="//code.angularjs.org/1.5.0/angular-route.min.js"></script>
+
+    <script src="//www.youtube.com/iframe_api"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+            integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+            crossorigin="anonymous"></script>
+
+    <!--<script src="bower_components/bootstrap-sass/assets/javascripts/bootstrap.min.js"></script>-->
+    <script src="rx.all.min.js"></script>
+    <script src="rx.angular.min.js"></script>
+    <script src="app.js"></script>
+
+
+    <script>
+        //    var videoId = "M7lc1UVf-VE";
+        //    var audioId = "xiTOUpzRpss";
+
+        window.youTubeApiLoaded = new Rx.BehaviorSubject(false);
+
+        window.onYouTubePlayerAPIReady = function () {
+            window.youTubeApiLoaded.onNext(true);
+//        window.youTubeApiLoaded.onCompleted();
+        }
+
+    </script>
   </body>
 </html>
