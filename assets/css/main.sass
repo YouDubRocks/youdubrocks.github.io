@@ -16,11 +16,29 @@
     line-height: 1.2
     border-color: $accent
 
-.small-controls
-  button
+.media-controls
+  .icon
     color: $gray-light
-    border-color: $gray-lighter
-    background-color: transparent
+    margin-top: $padding-base-vertical * 1.2
+    padding-right: 0
+
+  .title
+    @include text-overflow
+    height: 100%
+    margin: 0
+    margin-top: $padding-base-vertical * 1.25
+
+  .controls
+    button
+      color: $gray-light
+      border-color: $gray-lighter
+      background-color: transparent
+
+  &.picture
+    margin-top: $vspace * .5
+
+  &.sound
+    margin-bottom: $vspace * .5
 
 .social-controls
   margin-top: 20px
