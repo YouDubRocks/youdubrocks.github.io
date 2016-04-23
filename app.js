@@ -605,7 +605,7 @@ ydAppModule.controller('SharingCtrl', function ($scope) {
     };
 });
 
-ydAppModule.controller('VideoSearch', function ($scope, $rootScope, observeOnScope, SearchVideos, $route) {
+ydAppModule.controller('VideoSearch', function ($scope, $rootScope, observeOnScope, SearchVideos, $route, VideoPlayer) {
     $scope.model = {};
 
     observeOnScope($scope, 'model.videoQuery')
@@ -631,7 +631,7 @@ ydAppModule.controller('VideoSearch', function ($scope, $rootScope, observeOnSco
     };
 });
 
-ydAppModule.controller('AudioSearch', function ($scope, $rootScope, observeOnScope, SearchVideos, $route) {
+ydAppModule.controller('AudioSearch', function ($scope, $rootScope, observeOnScope, SearchVideos, $route, VideoPlayer) {
     $scope.model = {};
 
     observeOnScope($scope, 'model.audioQuery')
