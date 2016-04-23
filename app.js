@@ -345,18 +345,17 @@ ydAppModule.controller('RootCtrl', function ($scope, $rootScope, $routeParams, $
 
     function reloadVideosAndAudioCompletely() {
         var languages = [
-            "US", "DZ", "AR", "AU", "AT", "AZ", "BH", "BY",
-            "BE", "BA", "BR", "BG", "CA", "CL", "CO",
-            "HR", "CZ", "DK", "EG", "EE", "FI", "FR", "GE",
-            "DE", "GH", "GR", "HK", "HU", "IS", "IN", "ID",
-            "IQ", "IE", "IL", "IT", "JP", "JO", "KZ", "KE",
-            "KW", "LV", "LB", "LY", "LT", "LU", "MK", "MY",
-            "MX", "ME", "MA", "NP", "NL", "NZ", "NG", "NO",
-            "OM", "PK", "PE", "PH", "PL", "PT", "PR", "QA",
-            "RO", "RU", "SA", "SN", "RS", "SG", "SK", "SI",
-            "ZA", "KR", "ES", "LK", "SE", "CH", "TW", "TZ",
-            "TH", "TN", "TR", "UG", "UA", "AE", "GB", "VN",
-            "YE", "ZW"];
+            "US", "AU", "AT", "AZ", "BH", "BY",
+            "BE", "BG", "CA",
+            "CZ", "DK", "EE", "FI", "FR", "GE",
+            "DE",
+            "JP", "JO",
+
+            "NO",
+
+            "RU",
+
+            "GB",];
 
         var languageIndexFirst = getRandomInt(0, languages.length - 1);
         var languageIndexSecond = getRandomInt(0, languages.length - 1);
@@ -592,7 +591,7 @@ ydAppModule.controller('SharingCtrl', function ($scope) {
 
     $scope.twitter = function () {
         var url = window.location;
-        var twitterHandle = "YouDubRocks"
+        var twitterHandle = "YouDubRocks";
         window.open("https://twitter.com/share?url=" + encodeURIComponent(url) + '&text=' + document.title + ' via @' + twitterHandle,
             '',
             'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');
@@ -600,7 +599,7 @@ ydAppModule.controller('SharingCtrl', function ($scope) {
     $scope.facebook = function () {
         FB.ui({
             method: 'share',
-            href: 'https://developers.facebook.com/docs/',
+            href: window.location,
         }, function (response) {
         });
     };
