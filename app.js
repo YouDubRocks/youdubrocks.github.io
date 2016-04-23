@@ -480,11 +480,12 @@ ydAppModule.controller('StartTimeCtrl', function ($scope, $rootScope, $route, Vi
 ydAppModule.controller('StopStartCtrl', function ($scope, $rootScope, VideoPlayer) {
     $scope.playPause = function () {
         VideoPlayer.playPause();
-    }
+    };
 
     $scope.reloadCompletely = function () {
         $rootScope.$emit('ReloadCompletely');
-    }
+        ga('send', 'event', 'Website', 'Reload');
+    };
 });
 
 ydAppModule.controller('RepickRelatedCtrl', function ($scope, $rootScope, $route, VideoPlayer, RelatedVideos, CaptureLocation, VideoInfo) {
@@ -584,6 +585,24 @@ ydAppModule.controller('VideoAudioSearchTabsCtrl', function ($scope, $rootScope,
 
     $scope.showAudio = function () {
         $scope.videoVisible = false;
+    };
+});
+
+ydAppModule.controller('SharingCtrl', function ($scope) {
+
+    $scope.twitter = function () {
+        var url = window.location;
+        var twitterHandle = "YouDubRocks"
+        window.open("https://twitter.com/share?url=" + encodeURIComponent(url) + '&text=' + document.title + ' via @' + twitterHandle,
+            '',
+            'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');
+    };
+    $scope.facebook = function () {
+        FB.ui({
+            method: 'share',
+            href: 'https://developers.facebook.com/docs/',
+        }, function (response) {
+        });
     };
 });
 
