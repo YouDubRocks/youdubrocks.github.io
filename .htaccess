@@ -1,9 +1,0 @@
-RewriteEngine On
-RewriteCond %{REQUEST_URI} !=/index.html
-RewriteCond %{REQUEST_URI} !=/about.html
-RewriteCond %{REQUEST_URI} !=/
-RewriteCond %{REQUEST_URI} ^(?!/assets/.*$) # This line prevents all contents of this directory from being redirected
-RewriteCond %{REQUEST_URI} ^(?!/img/.*$) # This line prevents all contents of this directory from being redirected
-RewriteCond %{REQUEST_URI} ^(?!/_generated/.*$) # This line prevents all contents of this directory from being redirected
-RewriteCond %{REQUEST_URI} ^(?!/bower_components/.*$) # This line prevents all contents of this directory from being redirected
-RewriteRule ^ / [R=301]
