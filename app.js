@@ -355,6 +355,7 @@ ydAppModule.controller('RootCtrl', function ($scope, $rootScope, $routeParams, $
         var languages = [
             "US", "AU", "CA",
             "CZ", "DK", "EE",
+            "ES",
             "FR",
             "DE",
             "JP",
@@ -625,7 +626,7 @@ ydAppModule.controller('SharingCtrl', function ($scope, $rootScope) {
         // var url =  encodeURIComponent(window.location);
         var url = window.location.toString();
         var quote = "Mix of " + $rootScope.videoTitle + " and " + $rootScope.audioTitle;
-        
+
         FB.ui({
             method: 'share',
             quote: quote,
