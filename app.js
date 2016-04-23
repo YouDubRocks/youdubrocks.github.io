@@ -304,7 +304,7 @@ ydAppModule.config(function ($routeProvider, $locationProvider) {
             // audioStart: 0,
         });
 
-    $locationProvider.html5Mode(false).hashPrefix('!');
+    // $locationProvider.html5Mode(true);
 });
 ydAppModule.service('CaptureLocation', function ($rootScope, $route, VideoPlayer, $location, $timeout) {
     return {
