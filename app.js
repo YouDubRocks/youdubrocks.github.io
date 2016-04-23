@@ -223,6 +223,7 @@ ydServices.service('VideoPlayer', function ($rootScope) {
                     playerVars: {
                         controls: '0',
                         disablekb: '1',
+                        loop: '1',
                         fs: '0',
                         modestbranding: '1',
                         rel: '0',
@@ -260,6 +261,7 @@ ydServices.service('VideoPlayer', function ($rootScope) {
                     playerVars: {
                         controls: '0',
                         disablekb: '1',
+                        loop: '1',
                         fs: '0',
                         modestbranding: '1',
                         rel: '0',
