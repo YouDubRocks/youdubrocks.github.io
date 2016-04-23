@@ -614,9 +614,10 @@ ydAppModule.controller('SharingCtrl', function ($scope) {
     };
     $scope.facebook = function () {
         ga('send', 'event', 'Share', 'Facebook');
+        var url =  encodeURIComponent(window.location);
         FB.ui({
             method: 'share',
-            href: window.location,
+            href: url,
         }, function (response) {
         });
     };
