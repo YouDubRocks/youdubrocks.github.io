@@ -617,11 +617,13 @@ ydAppModule.controller('SharingCtrl', function ($scope) {
     };
     $scope.facebook = function () {
         ga('send', 'event', 'Share', 'Facebook');
-        var url =  encodeURIComponent(window.location);
+        // var url =  encodeURIComponent(window.location);
+        var url =  window.location;
         FB.ui({
             method: 'share',
             href: url,
         }, function (response) {
+            console.log(response);
         });
     };
 });
