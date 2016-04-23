@@ -205,6 +205,9 @@ ydServices.service('VideoPlayer', function ($rootScope) {
                     // playerAudio.mute();
                     // playerAudio.playVideo();
 
+
+                    ga('send', 'event', 'Player', 'StartedPlaying');
+
                     $rootScope.$emit('VideoLoaded', {
                         playerVideo: playerVideo,
                         playerAudio: playerAudio,
