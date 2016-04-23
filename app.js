@@ -21,6 +21,24 @@ ydServices.factory('MostPopularVideos', ['$resource',
         });
     }]
 );
+ydServices.factory('VideoInfo', ['$resource',
+    function ($resource) {
+        return $resource('https://www.googleapis.com/youtube/v3/videos', {}, {
+            findOne: {
+                method: 'GET',
+                params: {
+                    part: 'snippet',
+                    key: 'AIzaSyBCEPs6IYrA3P4tRNKNU_TQmhRt2NsX6aY',
+                },
+                isArray: false,
+                transformResponse: function (data, headersGetter) {
+                    data = angular.fromJson(data);
+                    return data['items'][0];
+                }
+            }
+        });
+    }]
+);
 ydServices.factory('RelatedVideos', ['$resource',
     function ($resource) {
         return $resource('https://www.googleapis.com/youtube/v3/search', {}, {
@@ -346,7 +364,7 @@ ydAppModule.controller('RootCtrl', function ($scope, $rootScope, $routeParams, $
         Rx.Observable.zip(
             findTopVideos({regionCode: languages[languageIndexFirst]}),
             findTopVideos({regionCode: languages[languageIndexSecond]})
-            )
+        )
             .subscribe(
                 function (x) {
                     var firstVideo = x[0];
@@ -469,7 +487,7 @@ ydAppModule.controller('StopStartCtrl', function ($scope, $rootScope, VideoPlaye
     }
 });
 
-ydAppModule.controller('RepickRelatedCtrl', function ($scope, $rootScope, $route, VideoPlayer, RelatedVideos, CaptureLocation) {
+ydAppModule.controller('RepickRelatedCtrl', function ($scope, $rootScope, $route, VideoPlayer, RelatedVideos, CaptureLocation, VideoInfo) {
 
     function getRelatedVideos(videoId) {
         function getRandomInt(min, max) {
@@ -482,6 +500,14 @@ ydAppModule.controller('RepickRelatedCtrl', function ($scope, $rootScope, $route
                 var targetIndex = getRandomInt(0, response.length - 1);
                 console.log("Target index", targetIndex, "total length", response.length);
                 return response[targetIndex];
+            });
+    }
+
+    function getVideoInfo(videoId) {
+        return Rx.Observable
+            .fromPromise(VideoInfo.findOne({id: videoId}).$promise)
+            .map(function (response) {
+                return response;
             });
     }
 
@@ -514,6 +540,39 @@ ydAppModule.controller('RepickRelatedCtrl', function ($scope, $rootScope, $route
                     console.error('Error: %s', err);
                 });
     };
+
+    $rootScope.$on('VideoLoaded', function (event, data) {
+        var audioId = VideoPlayer.audioId();
+        var videoId = VideoPlayer.videoId();
+
+        Rx.Observable
+            .zip(
+                getVideoInfo(audioId),
+                getVideoInfo(videoId)
+            )
+            .subscribe(
+                function (x) {
+                    var firstVideo = x[0];
+                    var secondVideo = x[1];
+
+                    if (!firstVideo || !secondVideo) {
+                        console.warn("Video not found", firstVideo, secondVideo);
+                        return;
+                    }
+
+                    $scope.videoTitle = secondVideo.snippet.title;
+                    $scope.audioTitle = firstVideo.snippet.title;
+
+                    $scope.$apply();
+                },
+                function (err) {
+                    console.log('Error: %s', err);
+                },
+                function () {
+                    console.log('Completed');
+                });
+
+    });
 });
 
 ydAppModule.controller('VideoAudioSearchTabsCtrl', function ($scope, $rootScope, observeOnScope, SearchVideos, $route) {
