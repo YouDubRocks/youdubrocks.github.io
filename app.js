@@ -70,7 +70,7 @@ ydServices.factory('SearchVideos', ['$resource',
                     type: 'video',
                     order: 'viewCount',
                     videoDefinition: 'any',
-                    maxResults: 10,
+                    maxResults: 20,
                     key: 'AIzaSyBCEPs6IYrA3P4tRNKNU_TQmhRt2NsX6aY',
                 },
                 isArray: true,
@@ -620,7 +620,7 @@ ydAppModule.controller('SharingCtrl', function ($scope) {
     $scope.facebook = function () {
         ga('send', 'event', 'Share', 'Facebook');
         // var url =  encodeURIComponent(window.location);
-        var url =  window.location;
+        var url =  window.location.toString();
         FB.ui({
             method: 'share',
             href: url,
