@@ -580,6 +580,9 @@ ydAppModule.controller('RepickRelatedCtrl', function ($scope, $rootScope, $route
                     $scope.videoTitle = secondVideo.snippet.title;
                     $scope.audioTitle = firstVideo.snippet.title;
 
+                    $rootScope.videoTitle = $scope.videoTitle;
+                    $rootScope.audioTitle = $scope.audioTitle;
+
                     $scope.audioHref = "https://www.youtube.com/watch?v=" + audioId;
                     $scope.videoHref = "https://www.youtube.com/watch?v=" + videoId;
 
@@ -607,7 +610,7 @@ ydAppModule.controller('VideoAudioSearchTabsCtrl', function ($scope, $rootScope,
     };
 });
 
-ydAppModule.controller('SharingCtrl', function ($scope) {
+ydAppModule.controller('SharingCtrl', function ($scope, $rootScope) {
 
     $scope.twitter = function () {
         ga('send', 'event', 'Share', 'Twitter');
@@ -620,9 +623,12 @@ ydAppModule.controller('SharingCtrl', function ($scope) {
     $scope.facebook = function () {
         ga('send', 'event', 'Share', 'Facebook');
         // var url =  encodeURIComponent(window.location);
-        var url =  window.location.toString();
+        var url = window.location.toString();
+        var quote = "Mix of " + $rootScope.videoTitle + " and " + $rootScope.audioTitle;
+        
         FB.ui({
             method: 'share',
+            quote: quote,
             href: url,
         }, function (response) {
             console.log(response);
