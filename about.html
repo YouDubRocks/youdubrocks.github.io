@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="youdub">
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -50,7 +50,7 @@
     </style>
 </head>
 
-<body ng-controller="RootCtrl">
+<body>
 
 <nav class="navbar navbar-inverse navbar-static-top">
     <div class="container">
@@ -120,21 +120,6 @@
 <script src="rx.all.min.js"></script>
 <script src="rx.angular.min.js"></script>
 <script src="app.js"></script>
-
-
-<script>
-    //    var videoId = "M7lc1UVf-VE";
-    //    var audioId = "xiTOUpzRpss";
-
-    window.youTubeApiLoaded = new Rx.BehaviorSubject(false);
-
-    window.onYouTubePlayerAPIReady = function () {
-        window.youTubeApiLoaded.onNext(true);
-//        window.youTubeApiLoaded.onCompleted();
-    }
-
-</script>
-
 
 <script>
     window.fbAsyncInit = function () {
