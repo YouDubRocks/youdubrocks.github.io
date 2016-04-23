@@ -495,7 +495,7 @@ ydAppModule.controller('StopStartCtrl', function ($scope, $rootScope, VideoPlaye
 
     $scope.reloadCompletely = function () {
         $rootScope.$emit('ReloadCompletely');
-        ga('send', 'event', 'Website', 'Reload');
+        ga('send', 'event', 'Video', 'Refresh');
     };
 });
 
@@ -605,6 +605,7 @@ ydAppModule.controller('VideoAudioSearchTabsCtrl', function ($scope, $rootScope,
 ydAppModule.controller('SharingCtrl', function ($scope) {
 
     $scope.twitter = function () {
+        ga('send', 'event', 'Share', 'Twitter');
         var url = window.location;
         var twitterHandle = "YouDubRocks";
         window.open("https://twitter.com/share?url=" + encodeURIComponent(url) + '&text=' + document.title + ' via @' + twitterHandle,
@@ -612,6 +613,7 @@ ydAppModule.controller('SharingCtrl', function ($scope) {
             'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');
     };
     $scope.facebook = function () {
+        ga('send', 'event', 'Share', 'Facebook');
         FB.ui({
             method: 'share',
             href: window.location,
@@ -636,6 +638,7 @@ ydAppModule.controller('VideoSearch', function ($scope, $rootScope, observeOnSco
         })
         .subscribe(function (videos) {
             console.log("Searched ", videos);
+            ga('send', 'event', 'Search', 'Video');
             $scope.model.videos = videos;
             $scope.$apply();
         });
@@ -661,6 +664,7 @@ ydAppModule.controller('AudioSearch', function ($scope, $rootScope, observeOnSco
         })
         .subscribe(function (videos) {
             console.log("Searched ", videos);
+            ga('send', 'event', 'Search', 'Audio');
             $scope.model.videos = videos;
             $scope.$apply();
         });
