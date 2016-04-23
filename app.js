@@ -644,6 +644,7 @@ ydAppModule.controller('VideoSearch', function ($scope, $rootScope, observeOnSco
         });
 
     $scope.selectVideo = function (video) {
+        ga('send', 'event', 'Search', 'VideoSelect');
         $route.updateParams({videoId: video.id.videoId, videoStart: 0});
     };
 });
@@ -670,6 +671,7 @@ ydAppModule.controller('AudioSearch', function ($scope, $rootScope, observeOnSco
         });
 
     $scope.selectAudio = function (video) {
+        ga('send', 'event', 'Search', 'AudioSelect');
         $route.updateParams({audioId: video.id.videoId, audioStart: 0});
     };
 });
