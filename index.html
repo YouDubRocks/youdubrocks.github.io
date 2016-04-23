@@ -99,7 +99,7 @@
                                 <i class="fa fa-film"></i>
                             </div>
                             <span class="col-md-8 title">
-                              {{videoTitle}}
+                               <a ng-href="{{videoHref}}" target="_blank">{{videoTitle}}</a>
                             </span>
                             <div class="col-md-3 controls">
                                 <div class="btn-group controls" role="group">
@@ -122,7 +122,7 @@
                                 <i class="fa fa-music"></i>
                             </div>
                             <div class="col-md-8 title">
-                                {{audioTitle}}
+                                <a ng-href="{{audioHref}}" target="_blank">{{audioTitle}}</a>
                             </div>
                             <div class="col-md-3 controls">
                                 <div class="btn-group controls" role="group">
@@ -186,11 +186,9 @@
                         <input type="input" class="form-control" placeholder="Search..." ng-model="model.videoQuery"/>
                     </div>
                 </form>
-                <div class="media" ng-repeat="video in model.videos" ng-click="select(video)">
+                <div class="media" ng-repeat="video in model.videos" ng-click="selectVideo(video)">
                     <div class="media-left">
-                        <a href="#">
-                            <img height="64" class="media-object" ng-src="{{video.snippet.thumbnails.default.url}}"/>
-                        </a>
+                        <img height="64" class="media-object" ng-src="{{video.snippet.thumbnails.default.url}}"/>
                     </div>
                     <div class="media-body">
                         <h5 class="media-heading">
@@ -206,11 +204,9 @@
                     <input type="input" class="form-control" placeholder="Search..." ng-model="model.audioQuery"/>
                 </div>
 
-                <div class="media" ng-repeat="video in model.videos" ng-click="select(video)">
+                <div class="media" ng-repeat="video in model.videos" ng-click="selectAudio(video)">
                     <div class="media-left">
-                        <a href="#">
-                            <img height="64" class="media-object" ng-src="{{video.snippet.thumbnails.default.url}}"/>
-                        </a>
+                        <img height="64" class="media-object" ng-src="{{video.snippet.thumbnails.default.url}}"/>
                     </div>
                     <div class="media-body">
                         <h5 class="media-heading">
@@ -224,7 +220,7 @@
 </div><!-- /.container -->
 
 <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
@@ -233,7 +229,7 @@
 
 
 <script src="//code.angularjs.org/1.5.5/angular-resource.min.js"></script>
-<script src="//code.angularjs.org/1.5.5/angular-route.min.js"></script>
+<script src="//code.angularjs.org/1.5.5/angular-route.js"></script>
 
 <script src="//www.youtube.com/iframe_api"></script>
 <!-- Latest compiled and minified JavaScript -->

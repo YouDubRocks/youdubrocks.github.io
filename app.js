@@ -162,13 +162,23 @@ ydServices.service('VideoPlayer', function ($rootScope) {
                 _videoId = videoId;
 
                 if (playerVideo) {
-                    playerVideo.stopVideo();
+                    try {
+                        playerVideo.stopVideo();
+                    }
+                    catch (err) {
+                        console.log(err);
+                    }
                     $("#player-video").remove();
                     playerVideo = null;
                     // videoStartPosition = 0;
                 }
                 if (playerAudio) {
-                    playerAudio.stopVideo();
+                    try {
+                        playerAudio.stopVideo();
+                    }
+                    catch (err) {
+                        console.log(err);
+                    }
                     $("#player-audio").remove();
                     playerAudio = null;
                     // audioStartPosition = 0;
@@ -278,10 +288,7 @@ ydServices.service('VideoPlayer', function ($rootScope) {
 var ydAppModule = angular.module('youdub', ['ngRoute', 'ydServices', 'ngMaterial', 'rx']);
 ydAppModule.config(function ($routeProvider, $locationProvider) {
     $routeProvider
-        .when('/:videoId/:audioId/', {
-            controller: 'RootCtrl',
-        })
-        .when('/:videoId/:audioId/:videoStart/:audioStart/', {
+        .when('/:videoId/:audioId/:videoStart?/:audioStart?/', {
             controller: 'RootCtrl',
         })
         .otherwise({
@@ -322,10 +329,6 @@ ydAppModule.controller('RouteParamCtrl', function ($scope, $rootScope, MostPopul
 
 ydAppModule.controller('RootCtrl', function ($scope, $rootScope, $routeParams, $location, $route, MostPopularVideos, VideoPlayer, CaptureLocation) {
 
-    $scope.$route = $route;
-    $scope.$location = $location;
-    $scope.$routeParams = $routeParams;
-
     function getRandomInt(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
@@ -345,17 +348,15 @@ ydAppModule.controller('RootCtrl', function ($scope, $rootScope, $routeParams, $
 
     function reloadVideosAndAudioCompletely() {
         var languages = [
-            "US", "AU", "AT", "AZ", "BH", "BY",
-            "BE", "BG", "CA",
-            "CZ", "DK", "EE", "FI", "FR", "GE",
+            "US", "AU", "CA",
+            "CZ", "DK", "EE",
+            "FR",
             "DE",
-            "JP", "JO",
-
+            "JP",
             "NO",
-
             "RU",
-
-            "GB",];
+            "GB"
+        ];
 
         var languageIndexFirst = getRandomInt(0, languages.length - 1);
         var languageIndexSecond = getRandomInt(0, languages.length - 1);
@@ -401,7 +402,7 @@ ydAppModule.controller('RootCtrl', function ($scope, $rootScope, $routeParams, $
         var params = data.params;
 
 
-        if (params) {
+        if (!jQuery.isEmptyObject(params)) {
             var videoId = params['videoId'];
             var audioId = params['audioId'];
             var videoStart = params['videoStart'];
@@ -448,6 +449,8 @@ ydAppModule.controller('RootCtrl', function ($scope, $rootScope, $routeParams, $
 
 ydAppModule.controller('StartTimeCtrl', function ($scope, $rootScope, $route, VideoPlayer, CaptureLocation, $timeout) {
     $scope.model = {};
+    var initialized = false;
+
     $rootScope.$on('VideoLoaded', function (event, data) {
         var durations = VideoPlayer.getDurations();
 
@@ -456,10 +459,16 @@ ydAppModule.controller('StartTimeCtrl', function ($scope, $rootScope, $route, Vi
 
         $scope.model.videoStartPosition = VideoPlayer.videoStart();
         $scope.model.audioStartPosition = VideoPlayer.audioStart();
+
+        initialized = true;
+
         $scope.$apply();
     });
 
     $scope.$watch('model.videoStartPosition', function (value) {
+        if (!initialized) {
+            return;
+        }
         VideoPlayer.setVideoStartPosition(value);
         var params = {
             videoStart: VideoPlayer.videoStart(),
@@ -468,6 +477,9 @@ ydAppModule.controller('StartTimeCtrl', function ($scope, $rootScope, $route, Vi
     });
 
     $scope.$watch('model.audioStartPosition', function (value) {
+        if (!initialized) {
+            return;
+        }
         VideoPlayer.setAudioStartPosition(value);
         var params = {
             audioStart: VideoPlayer.audioStart(),
@@ -516,7 +528,7 @@ ydAppModule.controller('RepickRelatedCtrl', function ($scope, $rootScope, $route
             .subscribe(
                 function (x) {
                     var newVideoId = x.id.videoId;
-                    $route.updateParams({videoId: newVideoId});
+                    $route.updateParams({videoId: newVideoId, videoStart: 0});
                     $rootScope.$apply();
 
                     console.log("New video", x.snippet.title);
@@ -533,7 +545,7 @@ ydAppModule.controller('RepickRelatedCtrl', function ($scope, $rootScope, $route
                     var newAudioId = x.id.videoId;
                     console.log("New audio", x.snippet.title);
 
-                    $route.updateParams({audioId: newAudioId});
+                    $route.updateParams({audioId: newAudioId, audioStart: 0});
                     $rootScope.$apply();
                 },
                 function (err) {
@@ -562,6 +574,9 @@ ydAppModule.controller('RepickRelatedCtrl', function ($scope, $rootScope, $route
 
                     $scope.videoTitle = secondVideo.snippet.title;
                     $scope.audioTitle = firstVideo.snippet.title;
+
+                    $scope.audioHref = "https://www.youtube.com/watch?v=" + audioId;
+                    $scope.videoHref = "https://www.youtube.com/watch?v=" + videoId;
 
                     $scope.$apply();
                 },
@@ -625,9 +640,8 @@ ydAppModule.controller('VideoSearch', function ($scope, $rootScope, observeOnSco
             $scope.$apply();
         });
 
-    $scope.select = function (video) {
-        $route.updateParams({videoId: video.id.videoId, audioId: VideoPlayer.audioId()});
-        // $rootScope.$apply();
+    $scope.selectVideo = function (video) {
+        $route.updateParams({videoId: video.id.videoId, videoStart: 0});
     };
 });
 
@@ -651,8 +665,7 @@ ydAppModule.controller('AudioSearch', function ($scope, $rootScope, observeOnSco
             $scope.$apply();
         });
 
-    $scope.select = function (video) {
-        $route.updateParams({audioId: video.id.videoId, videoId: VideoPlayer.videoId()});
-        // $rootScope.$apply();
+    $scope.selectAudio = function (video) {
+        $route.updateParams({audioId: video.id.videoId, audioStart: 0});
     };
 });
