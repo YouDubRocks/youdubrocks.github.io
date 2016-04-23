@@ -626,7 +626,7 @@ ydAppModule.controller('VideoSearch', function ($scope, $rootScope, observeOnSco
         });
 
     $scope.select = function (video) {
-        $route.updateParams({videoId: video.id.videoId});
+        $route.updateParams({videoId: video.id.videoId, audioId: VideoPlayer.audioId()});
         // $rootScope.$apply();
     };
 });
@@ -652,7 +652,7 @@ ydAppModule.controller('AudioSearch', function ($scope, $rootScope, observeOnSco
         });
 
     $scope.select = function (video) {
-        $route.updateParams({audioId: video.id.videoId});
+        $route.updateParams({audioId: video.id.videoId, videoId: VideoPlayer.videoId()});
         // $rootScope.$apply();
     };
 });
