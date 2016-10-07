@@ -296,6 +296,14 @@ ydAppModule.config(function ($routeProvider, $locationProvider) {
         .when('/index.html', {
             controller: 'RootCtrl',
         })
+        .when('/:videoId/:audioId/:videoStart?/:audioStart?/', {
+            redirectTo: function (pathParams, path, searchParams) {
+                return "index.html?videoId=" + pathParams['videoId']
+                    + "&audioId=" + pathParams['audioId'] +
+                    "&videoStart=" + (pathParams['videoStart'] || "0") +
+                    "&audioStart=" + (pathParams['audioStart'] || "0");
+            }
+        })
         .otherwise({
             redirectTo: function () {
                 return "index.html?videoId=c1&audioId=c2&videoStart=0&audioStart=0";
