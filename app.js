@@ -293,19 +293,22 @@ ydServices.service('VideoPlayer', function ($rootScope) {
 var ydAppModule = angular.module('youdub', ['ngRoute', 'ydServices', 'ngMaterial', 'rx']);
 ydAppModule.config(function ($routeProvider, $locationProvider) {
     $routeProvider
-        .when('/:videoId/:audioId/:videoStart?/:audioStart?/', {
+        .when('/index.html', {
             controller: 'RootCtrl',
         })
         .otherwise({
-            redirectTo: "/c1/c2/0/0"
+            redirectTo: function () {
+                return "index.html?videoId=c1&audioId=c2&videoStart=0&audioStart=0";
+            }
             // videoId: '',
             // audioId: '',
             // videoStart: 0,
             // audioStart: 0,
         });
 
-    // $locationProvider.html5Mode(true);
+    $locationProvider.html5Mode(true);
 });
+
 ydAppModule.service('CaptureLocation', function ($rootScope, $route, VideoPlayer, $location, $timeout) {
     return {
         capture: function () {
