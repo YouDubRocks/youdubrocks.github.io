@@ -106,6 +106,9 @@ ydServices.service('VideoPlayer', function ($rootScope) {
                     playerAudio.pauseVideo();
                     playerVideo.pauseVideo();
                 } else {
+                    videoStartPosition = parseInt(videoStartPosition) || 0;
+                    audioStartPosition = parseInt(audioStartPosition) || 0;
+
                     playerVideo.seekTo(videoStartPosition, true);
                     playerAudio.seekTo(audioStartPosition, true);
 
@@ -130,6 +133,9 @@ ydServices.service('VideoPlayer', function ($rootScope) {
                 }
                 playerAudio.pauseVideo();
                 playerVideo.pauseVideo();
+
+                console.log("setVideoStartPosition", videoStartPosition);
+                videoStartPosition = parseInt(videoStartPosition) || 0;
                 playerVideo.seekTo(videoStartPosition, true);
             },
             setAudioStartPosition: function (position) {
@@ -144,6 +150,9 @@ ydServices.service('VideoPlayer', function ($rootScope) {
                 }
                 playerAudio.pauseVideo();
                 playerVideo.pauseVideo();
+
+                console.log("setAudioStartPosition", audioStartPosition);
+                audioStartPosition = parseInt(audioStartPosition) || 0;
                 playerAudio.seekTo(audioStartPosition, true);
             },
             getDurations: function () {
@@ -195,9 +204,12 @@ ydServices.service('VideoPlayer', function ($rootScope) {
                         return;
                     }
 
+                    var videoStart = parseInt(videoStartPosition) || 0;
+                    var audioStart = parseInt(audioStartPosition) || 0;
+                    console.log("startMix", videoStart, audioStart);
 
-                    playerVideo.seekTo(videoStartPosition, true);
-                    playerAudio.seekTo(audioStartPosition, true);
+                    playerVideo.seekTo(videoStart, true);
+                    playerAudio.seekTo(audioStart, true);
                     // playerVideo.pauseVideo();
                     // playerAudio.pauseVideo();
                     // playerVideo.playVideo();
@@ -248,7 +260,7 @@ ydServices.service('VideoPlayer', function ($rootScope) {
                                 playerAudio.playVideo();
                             }
 
-                            // console.log(event);
+                            console.log(event);
                         },
                         'onError': function (event) {
                             console.log(event);
@@ -278,7 +290,7 @@ ydServices.service('VideoPlayer', function ($rootScope) {
                             checkAndPlay();
                         },
                         'onStateChange': function (event) {
-                            // console.log(event);/
+                            console.log(event);
                         },
                         'onError': function (event) {
                             console.log(event);
