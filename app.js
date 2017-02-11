@@ -131,12 +131,16 @@ ydServices.service('VideoPlayer', function ($rootScope) {
                 if (!playerAudio || !playerVideo) {
                     return;
                 }
+
                 playerAudio.pauseVideo();
                 playerVideo.pauseVideo();
 
                 console.log("setVideoStartPosition", videoStartPosition);
                 videoStartPosition = parseInt(videoStartPosition) || 0;
+                audioStartPosition = parseInt(audioStartPosition) || 0;
+
                 playerVideo.seekTo(videoStartPosition, true);
+                playerAudio.seekTo(audioStartPosition, true);
             },
             setAudioStartPosition: function (position) {
                 if (position == audioStartPosition) {
@@ -148,11 +152,15 @@ ydServices.service('VideoPlayer', function ($rootScope) {
                 if (!playerAudio || !playerVideo) {
                     return;
                 }
+
                 playerAudio.pauseVideo();
                 playerVideo.pauseVideo();
 
                 console.log("setAudioStartPosition", audioStartPosition);
+                videoStartPosition = parseInt(videoStartPosition) || 0;
                 audioStartPosition = parseInt(audioStartPosition) || 0;
+
+                playerVideo.seekTo(videoStartPosition, true);
                 playerAudio.seekTo(audioStartPosition, true);
             },
             getDurations: function () {
