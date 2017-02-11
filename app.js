@@ -260,7 +260,7 @@ ydServices.service('VideoPlayer', function ($rootScope) {
                                 playerAudio.playVideo();
                             }
 
-                            console.log(event);
+                            // console.log(event);
                         },
                         'onError': function (event) {
                             console.log(event);
@@ -290,7 +290,7 @@ ydServices.service('VideoPlayer', function ($rootScope) {
                             checkAndPlay();
                         },
                         'onStateChange': function (event) {
-                            console.log(event);
+                            // console.log(event);
                         },
                         'onError': function (event) {
                             console.log(event);
